@@ -19,3 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources(['user' => 'API\UserController']);
+Route::get('profile', 'API\ProfileController@show');
+Route::get('bio/{id}', 'API\ProfileController@showBio');
+Route::get('bio', 'API\ProfileController@show');
+Route::put('profile', 'API\ProfileController@update');
+Route::get('findUser', 'API\UserController@search');
+Route::get('findUser1', 'API\UserController@searchUser');

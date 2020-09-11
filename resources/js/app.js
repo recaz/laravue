@@ -35,7 +35,7 @@ Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
 
-
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 import VueRouter from 'vue-router'
 
@@ -52,7 +52,11 @@ Vue.use(VueProgressBar, {
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
-    { path: '/users', component: require('./components/Users.vue').default }
+    { path: '/bio', component: require('./components/Bio.vue').default },
+    { path: '/bio/{id}', component: require('./components/Bio.vue').default },
+    { path: '/users', component: require('./components/Users.vue').default },
+    { path: '*', component: require('./components/NotFound.vue').default }
+
   ]
 
   const router = new VueRouter({
@@ -85,6 +89,28 @@ window.Fire =  new Vue();
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue').default
+);
+
+
+Vue.component(
+  'not-found',
+  require('./components/NotFound.vue').default
+);
+
+
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
@@ -94,6 +120,18 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  */
 
 const app = new Vue({
-    el: '#app',
-    router
+  el: '#app',
+  router,
+  data:{
+      search: ''
+  },
+  methods:{
+      searchit: _.debounce(() => {
+          Fire.$emit('searching');
+      },1000),
+
+      printme() {
+          window.print();
+      }
+  }
 });
